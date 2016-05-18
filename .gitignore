@@ -31,3 +31,9 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# Ignore env config
+.env
+
+# Ignore vim tmp object
+*.sw*

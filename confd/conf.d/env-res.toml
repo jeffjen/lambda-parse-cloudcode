@@ -1,0 +1,10 @@
+[template]
+src = "env.tmpl"
+dest = ".env"
+keys = [
+    "/advertise_client_url",
+    "/app_id",
+    "/gateway_token",
+    "/javascript_key",
+    "/master_key"
+]
