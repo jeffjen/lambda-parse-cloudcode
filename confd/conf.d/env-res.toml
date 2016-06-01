@@ -4,7 +4,10 @@ dest = ".env"
 keys = [
     "/advertise_client_url",
     "/app_id",
+    "/firebase_project_id",
+    "/firebase_private_key",
+    "/firebase_client_email",
     "/gateway_token",
     "/javascript_key",
-    "/master_key"
+    "/master_key",
 ]

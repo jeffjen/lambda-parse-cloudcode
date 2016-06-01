@@ -29,3 +29,9 @@ EXPORT.request = function request(event) {
     event.__proto__ = express.request;
     return event;
 }
+
+let deps = [
+    "./firebase-single-sign-on"
+];
+// Initialize functions
+deps.forEach((fn) => Object.assign(EXPORT, require(fn)));
