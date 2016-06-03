@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  cloudcode:
+    build:
+      context: .
+      args:
+        - registry_url
+    env_file: .env
+    environment:
+      ADVERTISE_CLIENT_URL: http://server:8080/parse
+      PORT: 8085
+    image: poddworks/lambda-parse-cloudcode:1.0.0
+    ports:
+      - "8085:8085"
+    networks:
+      - backend
+
+networks:
+  backend:

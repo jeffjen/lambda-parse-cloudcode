@@ -1,0 +1,20 @@
+# ignore Dockerfile
+.dockerignore
+Dockerfile
+
+# ignore git
+.gitignore
+.git
+
+# ignore local node_modules
+node_modules
+
+# ignore tmp objects
+*.sw*
+
+# ignore config
+.env
+confd
+
+# ignore dev tool
+gulpfile.js
