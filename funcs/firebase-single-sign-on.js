@@ -1,5 +1,7 @@
 "use strict"
 
+const _ = require("lodash");
+
 const firebase = require("firebase");
 firebase.initializeApp({
     serviceAccount: {
@@ -31,13 +33,14 @@ module.exports = {
                             return user.logIn(user.username, autogen);
                         });
                 } else {
+                    let identities = _.mapKeys(userMeta.firebase.identities, (v, k) => k.replace(/\./g, "_"));
                     let user = new Parse.User({
-                        username: userMeta.email,
-                        email: userMeta.email,
-                        emailVerified: true,
-                        identities: userMeta.identities,
+                        username: userMeta.name,
+                        email: userMeta.email || null,
+                        emailVerified: (userMeta.email_verified) ? true : false,
+                        identities: identities,
                         password: randomstring.generate(),
-                        picture: userMeta.picture,
+                        picture: userMeta.picture || null,
                         uid: userMeta.user_id,
                     });
                     return user.signUp();
