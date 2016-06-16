@@ -2,7 +2,7 @@
 
 require("dotenv").config({ silent: true });
 
-const CloudCode = require("./funcs");
+const CloudCode = require("./funcs").CloudCode;
 
 module.exports.handle = function (event, context, callback) {
     const functionName = event.params.functionName;

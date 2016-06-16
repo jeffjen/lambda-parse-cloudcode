@@ -17,8 +17,12 @@ const randomstring = require("randomstring");
 module.exports = {
     sso: function sso(req, context) {
         var userMeta;
+        var id_token = req.query.id_token || req.body.id_token;
+        if (!id_token) {
+            return firebase.Promise.reject(new Error("Required parameter `id_token` missing"));
+        }
         return firebase.auth().
-            verifyIdToken(req.query.id_token).
+            verifyIdToken(id_token).
             then(function decoded(data) {
                 userMeta = data;
                 let query = new Parse.Query(Parse.User);
