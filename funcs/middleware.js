@@ -14,7 +14,7 @@ module.exports.build = function build(CloudCode) {
         if (func) {
             func(req, {})
                 .then(function success(result) {
-                    res.status(200).json(result);
+                    res.status(200).json({result: result});
                 })
                 .catch(function fail(err) {
                     next(new CloudCode.error.ServerError(err));

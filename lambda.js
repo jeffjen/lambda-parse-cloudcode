@@ -10,7 +10,7 @@ module.exports.handle = function (event, context, callback) {
     if (func) {
         func(CloudCode.request(event), context)
             .then(function success(result) {
-                callback(null, result)
+                callback(null, {result: result})
             })
             .catch(function fail(err) {
                 err = new CloudCode.error.ServerError(err);

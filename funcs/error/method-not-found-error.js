@@ -7,6 +7,7 @@ const StandardHttpError = require("standard-http-error");
 function MethodNotFoundError(methodName) {
     const ParseError = {
         code: 141,
+        error: "FunctionNotFound",
         message: "FunctionNotFound",
     };
     StandardHttpError.call(this, 404, "FunctionNotFound", { origin: ParseError });

@@ -16,9 +16,10 @@ function ServerError(errorOrMessage) {
     } else {
         err.origin = {
             code: errorOrMessage.code || 2,
+            error: errorOrMessage.error || errorOrMessage.message || "Service Unavailable",
             message: errorOrMessage.message || "Service Unavailable",
         };
-        err.message = err.origin.message;
+        err.message = err.origin.error;
     }
     StandardHttpError.call(this, err.code, err.message, { origin: err.origin });
 }
