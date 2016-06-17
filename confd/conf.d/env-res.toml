@@ -2,7 +2,7 @@
 src = "env.tmpl"
 dest = ".env"
 keys = [
-    "/advertise_client_url",
+    "/internal_advertise_client_url",
     "/app_id",
     "/firebase_project_id",
     "/firebase_private_key",
