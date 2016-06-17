@@ -19,6 +19,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "invoke": "node invoke.js",
     "bundle": "gulp bundle"
   },
   "author": "Jeffrey Jen <yihungjen@gmail.com>",

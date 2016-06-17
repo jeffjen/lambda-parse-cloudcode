@@ -1,0 +1,15 @@
+{
+    "url": "/parse/functions/{functionName}",
+    "method": "POST",
+    "headers": {
+        "X-Parse-Application-Id": "holimoo"
+    },
+    "query": {
+    },
+    "params": {
+        "functionName": ""
+    },
+    "body": {
+        "id_token": ""
+    }
+}
