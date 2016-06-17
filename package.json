@@ -1,6 +1,6 @@
 {
   "name": "lambda-parse-cloudcode",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CloudCode for Parse in AWS Lambda",
   "main": "./funcs/index.js",
   "dependencies": {

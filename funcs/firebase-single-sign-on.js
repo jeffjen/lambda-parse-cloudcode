@@ -26,7 +26,7 @@ module.exports = {
             then(function decoded(data) {
                 userMeta = data;
                 let query = new Parse.Query(Parse.User);
-                return query.equalTo("uid", data.user_id).first();
+                return query.equalTo("username", data.user_id).first();
             }).
             then(function hit(user) {
                 if (user) {
@@ -39,13 +39,13 @@ module.exports = {
                 } else {
                     let identities = _.mapKeys(userMeta.firebase.identities, (v, k) => k.replace(/\./g, "_"));
                     let user = new Parse.User({
-                        username: userMeta.name,
+                        displayName: userMeta.name,
+                        username: userMeta.user_id,
                         email: userMeta.email || null,
                         emailVerified: (userMeta.email_verified) ? true : false,
                         identities: identities,
                         password: randomstring.generate(),
                         picture: userMeta.picture || null,
-                        uid: userMeta.user_id,
                     });
                     return user.signUp();
                 }
