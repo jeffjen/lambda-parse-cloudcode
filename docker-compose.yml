@@ -9,7 +9,7 @@ services:
     env_file: .env
     environment:
       PORT: 8085
-    image: poddworks/lambda-parse-cloudcode:1.0.4
+    image: poddworks/lambda-parse-cloudcode:1.0.5
     ports:
       - "8085:8085"
     networks:

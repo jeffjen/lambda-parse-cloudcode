@@ -1,12 +1,16 @@
 "use strict"
 
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 
 module.exports.build = function build(CloudCode) {
     const router = express.Router();
 
-    router.use(bodyParser.json());
+    // Enable all CORS aceess
+    router.use(cors());
+
+    router.use(bodyParser.json({ type: "*/*" }));
 
     router.post("/:functionName", function handleFunction(req, res, next) {
         const functionName = req.params.functionName;
