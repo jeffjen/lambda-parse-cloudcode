@@ -37,5 +37,13 @@ let deps = [
 // Initialize functions
 deps.forEach((fn) => Object.assign(CloudCode, require(fn)));
 
+CloudCode.define = function define(name, fn) {
+    if (name in CloudCode) {
+        throw new Error("Function " + name + " already defined");
+    } else {
+        CloudCode[name] = fn;
+    }
+}
+
 // Build express app middleware
 EXPORT.middleware = require("./middleware").build(CloudCode);
