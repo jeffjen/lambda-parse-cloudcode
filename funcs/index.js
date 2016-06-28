@@ -47,3 +47,10 @@ CloudCode.define = function define(name, fn) {
 
 // Build express app middleware
 EXPORT.middleware = require("./middleware").build(CloudCode);
+
+// Export Parse middleware helper
+EXPORT.become = require("./middleware").become;
+EXPORT.sanitize = require("./middleware").sanitize;
+
+// Restrict use of Parse SDK
+EXPORT.Parse = Parse;

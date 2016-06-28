@@ -15,7 +15,7 @@ function ServerError(errorOrMessage) {
         this.name = errorOrMessage.name || "ServerError";
     } else {
         err.origin = {
-            code: errorOrMessage.code || 2,
+            code: errorOrMessage.code || 141,
             error: errorOrMessage.error || errorOrMessage.message || "Service Unavailable",
             message: errorOrMessage.message || "Service Unavailable",
         };
