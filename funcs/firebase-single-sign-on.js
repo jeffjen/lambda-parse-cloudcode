@@ -47,7 +47,7 @@ module.exports = {
                         password: randomstring.generate(),
                         picture: userMeta.picture || null,
                     });
-                    return user.signUp();
+                    return user.signUp(null, { useMasterKey: true });
                 }
             }).
             then(function done(user) {

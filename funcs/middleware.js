@@ -28,6 +28,8 @@ function sanitize(req, res, next) {
     delete req.body["_ClientVersion"];
     req.installationId = req.get("X-Parse-Installation-Id") || req.body["_InstallationId"] || null;
     delete req.body["_InstallationId"];
+    req.masterKey = req.get("X-Parse-Master-Key") || req.body["_MasterKey"] || null;
+    delete req.body["_MasterKey"];
     req.sessionToken = req.get("X-Parse-Session-Token") || req.body["_SessionToken"] || null;
     delete req.body["_SessionToken"];
     // Continue to the next middleware
