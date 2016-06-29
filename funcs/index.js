@@ -1,6 +1,7 @@
 "use strict"
 
 const express = require("express");
+const firebase = require("firebase");
 const Parse = require("parse/node");
 
 // Initialize Parse SDK
@@ -15,6 +16,16 @@ Parse.initialize(
 
 // Set Parse API Endpoint
 Parse.serverURL = process.env.ADVERTISE_CLIENT_URL;
+
+const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n");
+firebase.initializeApp({
+    serviceAccount: {
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+        privateKey: privateKey
+    },
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+});
 
 var EXPORT = module.exports;
 
@@ -32,6 +43,7 @@ CloudCode.request = function request(event) {
 }
 
 let deps = [
+    "./firebase-login-custom-token",
     "./firebase-single-sign-on"
 ];
 // Initialize functions

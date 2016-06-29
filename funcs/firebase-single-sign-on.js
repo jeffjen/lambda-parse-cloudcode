@@ -3,17 +3,9 @@
 const _ = require("lodash");
 
 const firebase = require("firebase");
-firebase.initializeApp({
-    serviceAccount: {
-        project_id: process.env.FIREBASE_PROJECT_ID,
-        client_email: process.env.FIREBASE_CLIENT_EMAIL,
-        private_key: process.env.FIREBASE_PRIVATE_KEY,
-    },
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
-});
-
 const Parse = require("parse/node");
 const randomstring = require("randomstring");
+
 module.exports = {
     sso: function sso(req, context) {
         var userMeta;
