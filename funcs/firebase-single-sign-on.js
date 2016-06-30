@@ -33,7 +33,7 @@ module.exports = {
                     let user = new Parse.User({
                         displayName: userMeta.name,
                         username: userMeta.user_id,
-                        email: userMeta.email || null,
+                        email: userMeta.email || userMeta.user_id + "@parse.com",
                         emailVerified: (userMeta.email_verified) ? true : false,
                         identities: identities,
                         password: randomstring.generate(),
