@@ -63,6 +63,7 @@ EXPORT.middleware = require("./middleware").build(CloudCode);
 // Export Parse middleware helper
 EXPORT.become = require("./middleware").become;
 EXPORT.sanitize = require("./middleware").sanitize;
+EXPORT.isModerator = require("./is-moderator");
 
 // Restrict use of Parse SDK
 EXPORT.Parse = Parse;
