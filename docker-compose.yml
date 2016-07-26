@@ -2,16 +2,11 @@ version: "2"
 
 services:
   cloudcode:
-    build:
-      context: .
-      args:
-        - registry_url
+    build: .
     env_file: .env
-    environment:
-      PORT: 8085
-    image: poddworks/lambda-parse-cloudcode:1.4.0
+    image: poddworks/lambda-parse-cloudcode
     ports:
-      - "8085:8085"
+      - "8080:8080"
     networks:
       - backend
 
