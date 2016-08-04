@@ -1,7 +1,7 @@
 "use strict"
 
 const firebase = require("firebase");
-const Parse = require("parse/node");
+const Parse = require("parse-sdk/node");
 
 const isModerator = require("./is-moderator");
 

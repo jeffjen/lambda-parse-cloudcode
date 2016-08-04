@@ -1,6 +1,6 @@
 "use strict"
 
-const Parse = require("parse/node");
+const Parse = require("parse-sdk/node");
 
 const ModeratorRoleName = "Moderators";
 

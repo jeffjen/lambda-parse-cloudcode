@@ -2,17 +2,10 @@
 
 const express = require("express");
 const firebase = require("firebase");
-const Parse = require("parse/node");
+const Parse = require("parse-sdk/node");
 
 // Initialize Parse SDK
-Parse.initialize(
-    process.env.APP_ID,
-    process.env.JAVASCRIPT_KEY,
-    process.env.MASTER_KEY,
-    {
-        "X-Gateway-Token": process.env.GATEWAY_TOKEN || ""
-    }
-);
+Parse.initialize(process.env.APP_ID, process.env.JAVASCRIPT_KEY, process.env.MASTER_KEY);
 
 // Set Parse API Endpoint
 Parse.serverURL = process.env.ADVERTISE_CLIENT_URL;

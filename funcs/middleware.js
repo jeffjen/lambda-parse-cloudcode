@@ -3,7 +3,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const Parse = require("parse/node");
+const Parse = require("parse-sdk/node");
 
 function become(sessionToken) {
     if (sessionToken) {
