@@ -31,6 +31,10 @@ CloudCode.error = {
 }
 
 CloudCode.request = function request(event) {
+    for (let k in event.headers) {
+        event.headers[k.toLowerCase()] = event.headers[k];
+        delete event.headers[k];
+    }
     event.__proto__ = express.request;
     return event;
 }
