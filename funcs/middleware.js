@@ -5,16 +5,22 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const Parse = require("parse-sdk/node");
 
-function become(sessionToken) {
-    if (sessionToken) {
+function become(req) {
+    if (req.sessionToken) {
         let query = new Parse.Query(Parse.Session);
-        return query.equalTo("sessionToken", sessionToken).include("user").first({ useMasterKey: true }).then(function (session) {
+        return query.equalTo("sessionToken", req.sessionToken).include("user").first({ useMasterKey: true }).then(function (session) {
             if (session) {
                 return session.get("user");
             } else {
                 throw new Error("No such user");
             }
         });
+    } else if (req.assumeUserId) {
+        if (req.masterKey !== Parse.masterKey) {
+            return Parse.reject("Cannot assume as user");
+        } else {
+            return new Parse.Query(Parse.User).get(req.assumeUserId, { useMasterKey: true });
+        }
     } else {
         return Parse.Promise.resolve(null);
     }
@@ -32,6 +38,9 @@ function sanitize(req, res, next) {
     delete req.body["_MasterKey"];
     req.sessionToken = req.get("X-Parse-Session-Token") || req.body["_SessionToken"] || null;
     delete req.body["_SessionToken"];
+    // Additional processing for assuming as user
+    req.assumeUserId = req.get("X-Parse-Assume-User-Id") || req.body["_AssumeUserId"] || null;
+    delete req.body["_AssumeUserId"];
     // Continue to the next middleware
     next && next();
 }
@@ -50,7 +59,7 @@ module.exports.build = function build(CloudCode) {
     router.use(sanitize);
 
     router.use(function obtainUser(req, res, next) {
-        become(req.sessionToken).
+        become(req).
             then(function success(user) {
                 req.user = user;
                 next();

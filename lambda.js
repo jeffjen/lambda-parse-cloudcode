@@ -12,7 +12,7 @@ module.exports.handle = function (event, context, callback) {
     if (func) {
         const req = CloudCode.request(event);
         sanitize(req);
-        become(req.sessionToken).
+        become(req).
             then(function current(user) {
                 req.user = user;
                 return func(req, context);
