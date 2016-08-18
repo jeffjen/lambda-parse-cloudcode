@@ -22,7 +22,7 @@ firebase.initializeApp({
 
 var EXPORT = module.exports;
 
-const CloudCode = EXPORT.CloudCode = {};
+const CloudCode = EXPORT.CloudCode = global.CloudCode = {};
 
 CloudCode.error = {
     MethodNotFoundError: require("./error/method-not-found-error"),
@@ -60,7 +60,7 @@ EXPORT.middleware = require("./middleware").build(CloudCode);
 // Export Parse middleware helper
 EXPORT.become = require("./middleware").become;
 EXPORT.sanitize = require("./middleware").sanitize;
-EXPORT.isModerator = require("./is-moderator");
+EXPORT.isModerator = global.isModerator = require("./is-moderator");
 
 // Restrict use of Parse SDK
-EXPORT.Parse = Parse;
+EXPORT.Parse = global.Parse = Parse;

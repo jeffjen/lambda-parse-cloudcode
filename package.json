@@ -2,7 +2,13 @@
   "name": "lambda-parse-cloudcode",
   "version": "1.5.0",
   "description": "CloudCode for Parse in AWS Lambda",
-  "main": "./funcs/index.js",
+  "files": [
+    "lib",
+    "app.js",
+    "cloudcode.js",
+    "LICENSE",
+    "README.md"
+  ],
   "dependencies": {
     "body-parser": "^1.15.2",
     "cors": "^2.7.1",
@@ -15,13 +21,12 @@
     "standard-http-error": "^2.0.0"
   },
   "devDependencies": {
+    "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-zip": "^3.2.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "invoke": "node invoke.js",
-    "bundle": "gulp bundle"
+    "start": "node index.js"
   },
   "author": "Jeffrey Jen <yihungjen@gmail.com>",
   "license": "ISC"

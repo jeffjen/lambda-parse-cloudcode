@@ -16,5 +16,14 @@ node_modules
 .env
 confd
 
+# ignore src
+src
+
+# ignore testing
+integration
+
+# ignore generated output
+dist
+
 # ignore dev tool
 gulpfile.js

@@ -35,5 +35,9 @@ node_modules
 # Ignore env config
 .env
 
+# Ignore dist
+lib
+dist
+
 # Ignore vim tmp object
 *.sw*

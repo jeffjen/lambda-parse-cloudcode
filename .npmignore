@@ -1,9 +1,0 @@
-# ignore self
-.npmignore
-
-# Do not include confd dir
-.env
-confd
-
-# ignore bundling stuff
-gulpfile.js
