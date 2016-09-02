@@ -10,6 +10,9 @@ Parse.initialize(process.env.APP_ID, process.env.JAVASCRIPT_KEY, process.env.MAS
 // Set Parse API Endpoint
 Parse.serverURL = process.env.ADVERTISE_CLIENT_URL;
 
+// Enforce no retry at server side
+Parse.CoreManager.set("REQUEST_ATTEMPT_LIMIT", 1);
+
 const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n");
 firebase.initializeApp({
     serviceAccount: {
