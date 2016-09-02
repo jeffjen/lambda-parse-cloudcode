@@ -11,7 +11,7 @@ module.exports = {
         var userMeta;
         var id_token = req.query.id_token || req.body.id_token;
         if (!id_token) {
-            return firebase.Promise.reject(new Error("Required parameter `id_token` missing"));
+            throw new Error("error/invalid-id-token");
         }
         return firebase.auth().
             verifyIdToken(id_token).

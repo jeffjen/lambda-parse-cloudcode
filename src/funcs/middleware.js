@@ -12,7 +12,7 @@ function become(req) {
             if (session) {
                 return session.get("user");
             } else {
-                throw new Error("No such user");
+                throw new Error("error/user-not-found");
             }
         });
     } else if (req.assumeUserId) {

@@ -11,7 +11,7 @@ module.exports = function isModerator(user) {
     return query.first().
         then(function (result) {
             if (!result) {
-                throw new Error("Forbidden");
+                throw new Error("error/role-moderators-required");
             } else {
                 user.isModerator = true;
                 return user;

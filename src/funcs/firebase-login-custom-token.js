@@ -28,7 +28,7 @@ function loginUser(req, context) {
             if (user) {
                 return Parse.User.logIn(user.get("username"), password);
             } else {
-                throw new Error("user not found");
+                throw new Error("error/user-not-found");
             }
         });
 }
