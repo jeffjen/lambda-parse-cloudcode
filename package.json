@@ -16,7 +16,7 @@
     "express": "^4.14.0",
     "firebase": "^3.2.0",
     "lodash": "^4.14.0",
-    "parse-sdk": "1.9.0",
+    "parse-sdk": "1.9.1",
     "randomstring": "^1.1.5",
     "standard-http-error": "^2.0.0"
   },
