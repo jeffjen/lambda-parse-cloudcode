@@ -1,4 +1,4 @@
-FROM node:4.4
+FROM node:4.5-slim
 MAINTAINER Jeffrey Jen <yihungjen@gmail.com>
 
 RUN mkdir -p /usr/src/app
