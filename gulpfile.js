@@ -1,28 +1,27 @@
 "use strict"
 
+const babel = require("gulp-babel");
 const del = require("del");
 const gulp = require("gulp");
+const lambda = require("gulp-awslambda");
+const path = require("path");
+const rename = require("gulp-rename");
+const shell = require("gulp-shell")
 const zip = require("gulp-zip");
 
-let dest = {
+const dest = {
     app: "lib",
     lambda: "dist"
 };
-let paths = {
-    app: "./src/**",
-    lambda: [
-        ".env",
+const paths = {
+    app: [
+        "src/**/*",
+    ],
+    src: [
         "package.json",
-        "cloudcode.js",
+        ".npmrc",
         "lambda.js",
-        "lib/**",
-        "node_modules/**",
-        "!node_modules/del/",
-        "!node_modules/del/**",
-        "!node_modules/gulp/",
-        "!node_modules/gulp/**",
-        "!node_modules/gulp-zip/",
-        "!node_modules/gulp-zip/**",
+        "lib/**/*"
     ]
 };
 
@@ -31,14 +30,37 @@ gulp.task("clean", function () {
 });
 
 gulp.task("app", function () {
-    gulp.src(paths.app).
+    return gulp.src(paths.app).
+        pipe(babel({
+            "presets": [ "es2015" ]
+        })).
         pipe(gulp.dest(dest.app));
 });
 
-gulp.task("lambda", function() {
-    gulp.src(paths.lambda, { base: "." })
-        .pipe(zip("app.zip"))
-        .pipe(gulp.dest(dest.lambda));
+gulp.task("lambda.npm.src", [ "app" ] , function () {
+    return gulp.src(paths.src, { dot: true }).
+        pipe(rename(function (p) {
+            switch (p.basename) {
+            default:
+                p.dirname = path.join("lib", p.dirname);
+                break;
+            case ".npmrc":
+            case "lambda":
+            case "package":
+                break;
+            }
+        })).
+        pipe(gulp.dest(dest.lambda));
 });
 
-gulp.task("default", [ "app", "lambda" ]);
+gulp.task("lambda.npm", [ "lambda.npm.src" ], shell.task([
+    `cd ${dest.lambda} && npm install --production`
+]));
+
+gulp.task("lambda", [ "lambda.npm" ], function() {
+    gulp.src([ `${dest.lambda}/**/*`, `!${dest.lambda}/app.zip` ]).
+        pipe(zip("app.zip")).
+        pipe(gulp.dest(dest.lambda));
+});
+
+gulp.task("default", [ "lambda" ]);
