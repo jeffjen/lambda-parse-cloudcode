@@ -10,4 +10,5 @@ keys = [
     "/gateway_token",
     "/javascript_key",
     "/master_key",
+    "/worker_num"
 ]

@@ -2,6 +2,10 @@
   "name": "lambda-parse-cloudcode",
   "version": "1.5.0",
   "description": "CloudCode for Parse in AWS Lambda",
+  "scripts": {
+    "dev": "node index.js",
+    "cluster": "pm2 -f --no-daemon start index.js --name parse-cloudcode -i ${WORKER_NUM}"
+  },
   "files": [
     "lib",
     "app.js",
@@ -29,9 +33,6 @@
     "gulp-rename": "^1.2.2",
     "gulp-shell": "^0.5.2",
     "gulp-zip": "^3.2.0"
-  },
-  "scripts": {
-    "start": "node index.js"
   },
   "author": "Jeffrey Jen <yihungjen@gmail.com>",
   "license": "ISC"

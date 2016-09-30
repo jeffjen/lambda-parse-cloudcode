@@ -1,12 +1,6 @@
-FROM node:4.5-slim
+FROM node:4.5-slim-pm2-onbuild
 MAINTAINER Jeffrey Jen <yihungjen@gmail.com>
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY .npmrc package.json /usr/src/app/
-RUN npm install --production
-COPY . /usr/src/app
-
-CMD [ "npm", "start" ]
+ENTRYPOINT [ "npm", "run" ]
+CMD [ "cluster" ]
 EXPOSE 8080
