@@ -15,14 +15,18 @@ const dest = {
 };
 const paths = {
     app: [
-        "src/**/*",
+        "src/**/*"
     ],
-    src: [
-        "package.json",
-        ".npmrc",
-        "lambda.js",
-        "lib/**/*"
-    ]
+    lambda: {
+        lib: "lib/**/*",
+        meta: [
+            "package.json",
+            ".npmrc",
+        ],
+        src: [
+            "lambda.js",
+        ]
+    }
 };
 
 gulp.task("clean", function () {
@@ -37,18 +41,20 @@ gulp.task("app", function () {
         pipe(gulp.dest(dest.app));
 });
 
-gulp.task("lambda.npm.src", [ "app" ] , function () {
-    return gulp.src(paths.src, { dot: true }).
-        pipe(rename(function (p) {
-            switch (p.basename) {
-            default:
-                p.dirname = path.join("lib", p.dirname);
-                break;
-            case ".npmrc":
-            case "lambda":
-            case "package":
-                break;
-            }
+gulp.task("lambda.npm.lib", [ "app" ] , function () {
+    return gulp.src(paths.lambda.lib, { dot: true }).
+        pipe(gulp.dest(dest.lambda + "/lib"));
+});
+
+gulp.task("lambda.npm.meta", function () {
+    return gulp.src(paths.lambda.meta, { dot: true }).
+        pipe(gulp.dest(dest.lambda));
+});
+
+gulp.task("lambda.npm.src", [ "lambda.npm.lib", "lambda.npm.meta" ] , function () {
+    return gulp.src(paths.lambda.src, { dot: true }).
+        pipe(babel({
+            "presets": [ "es2015" ]
         })).
         pipe(gulp.dest(dest.lambda));
 });
