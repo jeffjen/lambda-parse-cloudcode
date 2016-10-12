@@ -1,5 +1,5 @@
-# lambda-parse-cloudcode
-Framework to run and setup Parse CloudCode in AWS Lambda
+# parse-cloudcode
+Framework to run and setup Parse CloudCode standalone or in AWS Lambda
 
 # Purpose
 Provide custom API endpoints (via functions) to client where normal CRUD
