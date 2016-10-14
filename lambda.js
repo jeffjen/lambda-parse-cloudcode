@@ -1,5 +1,6 @@
 "use strict"
 
-require("dotenv").config({ silent: true });
+const config = require("./lambda.config");
+require("./lib/funcs")(config);
 
 module.exports.handle = require("./cloudcode");

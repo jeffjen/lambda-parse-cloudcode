@@ -1,69 +1,77 @@
 "use strict"
 
-const express = require("express");
-const firebase = require("firebase");
-const Parse = require("parse-sdk/node");
+module.exports = (function configureFunc(config) {
+    const express = require("express");
+    const firebase = require("firebase");
+    const Parse = require("parse-sdk/node");
 
-// Initialize Parse SDK
-Parse.initialize(process.env.APP_ID, process.env.JAVASCRIPT_KEY, process.env.MASTER_KEY);
+    // Initialize Parse SDK
+    Parse.initialize(config.parse.appID, config.parse.javascriptKey, config.parse.masterKey);
 
-// Set Parse API Endpoint
-Parse.serverURL = process.env.ADVERTISE_CLIENT_URL;
+    // Set Parse API Endpoint
+    Parse.serverURL = config.parse.serverURL;
 
-// Enforce no retry at server side
-Parse.CoreManager.set("REQUEST_ATTEMPT_LIMIT", 1);
+    // Enforce no retry at server side
+    Parse.CoreManager.set("REQUEST_ATTEMPT_LIMIT", 1);
 
-const privateKey = process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n");
-firebase.initializeApp({
-    serviceAccount: {
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: privateKey
-    },
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
-});
+    // Export (Global) CloudCode function mapper and request hijacker
+    const CloudCode = global.CloudCode = {};
 
-var EXPORT = module.exports;
+    CloudCode.error = {
+        MethodNotFoundError: require("./error/method-not-found-error"),
+        ServerError: require("./error/server-error"),
+    };
 
-const CloudCode = EXPORT.CloudCode = global.CloudCode = {};
-
-CloudCode.error = {
-    MethodNotFoundError: require("./error/method-not-found-error"),
-
-    ServerError: require("./error/server-error"),
-}
-
-CloudCode.request = function request(event) {
-    for (let k in event.headers) {
-        event.headers[k.toLowerCase()] = event.headers[k];
-        delete event.headers[k];
+    CloudCode.request = function request(event) {
+        for (let k in event.headers) {
+            event.headers[k.toLowerCase()] = event.headers[k];
+            delete event.headers[k];
+        }
+        event.__proto__ = express.request;
+        return event;
     }
-    event.__proto__ = express.request;
-    return event;
-}
 
-let deps = [
-    "./firebase-login-custom-token",
-    "./firebase-single-sign-on"
-];
-// Initialize functions
-deps.forEach((fn) => Object.assign(CloudCode, require(fn)));
-
-CloudCode.define = function define(name, fn) {
-    if (name in CloudCode) {
-        throw new Error("Function " + name + " already defined");
-    } else {
-        CloudCode[name] = fn;
+    CloudCode.define = function define(name, fn) {
+        if (name in CloudCode) {
+            throw new Error("Function " + name + " already defined");
+        } else {
+            CloudCode[name] = fn;
+        }
     }
-}
 
-// Build express app middleware
-EXPORT.middleware = require("./middleware").build(CloudCode);
+    // Build express app middleware
+    const middleware = require("./middleware").build(CloudCode);
 
-// Export Parse middleware helper
-EXPORT.become = require("./middleware").become;
-EXPORT.sanitize = require("./middleware").sanitize;
-EXPORT.isModerator = global.isModerator = require("./is-moderator");
+    // Export middleware helper
+    const become = require("./middleware").become;
+    const sanitize = require("./middleware").sanitize;
+    const isModerator = require("./is-moderator");
 
-// Restrict use of Parse SDK
-EXPORT.Parse = global.Parse = Parse;
+    if (config.firebase) {
+        const privateKey = config.firebase.privateKey.replace(/\\n/g, "\n");
+        firebase.initializeApp({
+            serviceAccount: {
+                projectId: config.firebase.projectId,
+                clientEmail: config.firebase.clientEmail,
+                privateKey: privateKey
+            },
+            databaseURL: config.firebase.databaseURL
+        });
+        const deps = [
+            "./firebase-login-custom-token",
+            "./firebase-single-sign-on"
+        ];
+        // Initialize functions
+        deps.forEach((fn) => Object.assign(CloudCode, require(fn)));
+    }
+
+    // Export symbols/reference
+    return {
+        CloudCode,
+        middleware,
+        become,
+        sanitize,
+        isModerator
+    };
+})();
+

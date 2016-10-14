@@ -1,6 +1,6 @@
 "use strict"
 
-require("./lib/funcs")({
+module.exports = {
     parse: {
         appID: process.env.APP_ID,
         javascriptKey: null,
@@ -13,6 +13,4 @@ require("./lib/funcs")({
         privateKey: process.env.FIREBASE_PRIVATE_KEY,
         databaseURL: process.env.FIREBASE_DATABASE_URL
     }
-});
-
-module.exports = require("./lib/app");
+};

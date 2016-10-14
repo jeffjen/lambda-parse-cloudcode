@@ -24,7 +24,9 @@ const paths = {
             ".npmrc",
         ],
         src: [
+            "cloudcode.js",
             "lambda.js",
+            "lambda.config.js"
         ]
     }
 };
@@ -36,7 +38,11 @@ gulp.task("clean", function () {
 gulp.task("app", function () {
     return gulp.src(paths.app).
         pipe(babel({
-            "presets": [ "es2015" ]
+            presets: [ "es2015" ],
+            plugins: [ "inline-package-json", "transform-inline-environment-variables", "transform-runtime" ]
+        })).
+        pipe(babel({
+            plugins: [ "minify-dead-code-elimination" ],
         })).
         pipe(gulp.dest(dest.app));
 });
@@ -54,7 +60,11 @@ gulp.task("lambda.npm.meta", function () {
 gulp.task("lambda.npm.src", [ "lambda.npm.lib", "lambda.npm.meta" ] , function () {
     return gulp.src(paths.lambda.src, { dot: true }).
         pipe(babel({
-            "presets": [ "es2015" ]
+            presets: [ "es2015" ],
+            plugins: [ "inline-package-json", "transform-inline-environment-variables", "transform-runtime" ]
+        })).
+        pipe(babel({
+            plugins: [ "minify-dead-code-elimination" ],
         })).
         pipe(gulp.dest(dest.lambda));
 });
