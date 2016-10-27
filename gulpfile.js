@@ -39,7 +39,7 @@ gulp.task("app", function () {
     return gulp.src(paths.app).
         pipe(babel({
             presets: [ "es2015" ],
-            plugins: [ "inline-package-json", "transform-inline-environment-variables", "transform-runtime" ]
+            plugins: [ "inline-package-json", "transform-runtime" ]
         })).
         pipe(babel({
             plugins: [ "minify-dead-code-elimination" ],
